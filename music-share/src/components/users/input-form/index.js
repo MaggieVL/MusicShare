@@ -1,8 +1,10 @@
-import React, { Component } from "react";
+import React from "react";
 import { Formik } from "formik";
 import withStyles from "@material-ui/core/styles/withStyles";
-import { Form } from "./form";
+import { SignUpForm } from "./signup-form";
+import { LogInForm } from "./login-form";
 import Paper from "@material-ui/core/Paper";
+import * as Yup from "yup";
 
 const styles = theme => ({
  paper: {
@@ -18,27 +20,50 @@ const styles = theme => ({
  }
 });
 
-class InputForm extends Component {
- constructor(props) {
-   super(props);
-   this.state = {};
- }
+const validationSchema = Yup.object({
+      username: Yup.string("Enter a name")
+          .required("Name is required"),
+      email: Yup.string("Enter your email")
+          .email("Enter a valid email")
+          .required("Email is required"),
+      password: Yup.string("")
+          .min(8, "Password must contain at least 8 characters")
+          .required("Enter your password"),
+      confirmPassword: Yup.string("Enter your password")
+          .required("Confirm your password")
+          .oneOf([Yup.ref("password")], "Password does not match"),
+      age: Yup.number("Enter your age")
+          .min(1,"Age must be at least 1")
+          .integer("Age must be a positive integer")
+          .required("Enter your age"),
+      genres: Yup.array()
+          .min(1, 'Pick at least 1 tag')
+          .of(
+            Yup.object().shape({
+              label: Yup.string().required(),
+              value: Yup.string().required(),
+            })
+          ),
+});
 
- render() {
-   const classes = this.props;
+function InputForm(props) {
+  const initialValues = { username: "", email: "", confirmPassword: "", password: "", age: 1, genres: [] };
+
    return (
-     <React.Fragment>
-          <div className={classes.container}>
-         <Paper elevation={1} className={classes.paper}>
-           <h1>Form</h1>
-           <Formik
-             render={props => <Form {...props} />}
+     <>
+       <div className={props.container}>
+         <Paper elevation={1} className={props.paper}>
+           <h1>{props.simple ? "Log in details: " : "Sign up details: " }</h1>
+           <Formik 
+              render={ vProps => props.simple ? <LogInForm {...vProps} /> : <SignUpForm {...vProps} /> } 
+              initialValues={initialValues}
+              validationSchema={validationSchema}
+              onSubmit={props.onSubmit}
            />
          </Paper>
        </div>
-     </React.Fragment>
+     </>
    );
  }
-}
-
+ 
 export default withStyles(styles)(InputForm);

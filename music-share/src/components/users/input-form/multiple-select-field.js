@@ -1,5 +1,4 @@
 import React from 'react';
-import EmojiIcon from '@atlaskit/icon/glyph/emoji';
 import Select, { components } from 'react-select';
 
 const DropdownIndicator = (props) => {
@@ -9,11 +8,20 @@ const DropdownIndicator = (props) => {
   );
 };
 
-export default (props) => (
+export const MultipleSelectField = ({
+  options,
+  field,
+  form,
+}) => (
   <Select
+    id={field.id}
+    name={field.name}
+    options={options}
+    values={field.value}
+    onChange={selectedOptions => form.setFieldValue(field.name, selectedOptions)}
+    onBlur={field.onBlur}
     closeMenuOnSelect={false}
     components={{ DropdownIndicator }}
     isMulti
-    options={props.options}
   />
 );

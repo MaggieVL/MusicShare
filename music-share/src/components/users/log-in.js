@@ -1,7 +1,9 @@
 import React from 'react';
+import InputForm from './input-form';
 
-export default function Login(){
+export default function LogIn(){
+    
     return (
-        <div> Login</div>
+        <InputForm simple={true}/>
     );
 }

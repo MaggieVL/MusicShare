@@ -6,7 +6,7 @@ import SignUp from './components/users/sign-up';
 import Home from './components/home';
 import './App.css';
 
-function App() {
+export default function App() {
   return (
   <BrowserRouter>
     <ButtonAppBar />
@@ -18,5 +18,3 @@ function App() {
   </BrowserRouter>
   );
 }
-
-export default App;

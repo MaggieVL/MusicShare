@@ -17,7 +17,7 @@ const genreOptions = [
 
 export const SignUpForm = (props) => {
   const {
-    values: { username, email, password, confirmPassword, age, genres },
+    values: { username, email, password, confirmPassword, age, genres, imageURL },
     errors,
     touched,
     handleChange,
@@ -33,12 +33,6 @@ export const SignUpForm = (props) => {
     handleChange(e);
     setFieldTouched(name, true, false);
     };
-
-    const changeGenres = (name, selectedGenres) => {
-      console.log(name);
-      console.log(selectedGenres);
-      setFieldTouched(name, true, false);
-    }
 
   return (
    <form onSubmit={handleSubmit}>
@@ -72,6 +66,17 @@ export const SignUpForm = (props) => {
        onChange={change.bind(null, "age")}
        label="Age"
        type="number"
+       variant="outlined"
+     />
+     <TextField
+       id="imageURL"
+       name="imageURL"
+       helperText={touched.imageURL ? errors.imageURL : ""}
+       error={touched.imageURL && Boolean(errors.imageURL)}
+       value={imageURL}
+       onChange={change.bind(null, "imageURL")}
+       label="Image url"
+       type="url"
        variant="outlined"
      />
      <Field

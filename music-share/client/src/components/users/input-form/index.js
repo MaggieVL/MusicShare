@@ -44,10 +44,12 @@ const validationSchema = Yup.object({
               value: Yup.string().required(),
             })
           ),
+      imageURL: Yup.string()
+          .url("Enter a valid url"),
 });
 
 function InputForm(props) {
-  const initialValues = { username: "", email: "", confirmPassword: "", password: "", age: 1, genres: [] };
+  const initialValues = { username: "", email: "", confirmPassword: "", password: "", age: 1, genres: [], imageURL: "" };
 
    return (
      <>

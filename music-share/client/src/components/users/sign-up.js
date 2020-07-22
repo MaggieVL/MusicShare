@@ -14,8 +14,6 @@ export default function SignUp() {
 
       const newUser = new User(username, email, password, age, pureGenres, imageURL);
       UserService.createUser(newUser);
-
-      setStatus("Successfully signed in");
   }
 
   return(

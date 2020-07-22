@@ -29,7 +29,7 @@ const rules = {
     password: 'required|min:8',
     age: 'required|integer|above:0',
     genres: 'required|array',
-    imageURL: 'required|imageURL',
+    imageURL: 'imageURL',
 };
 
 module.exports = rules;

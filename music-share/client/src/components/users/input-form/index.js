@@ -49,19 +49,26 @@ const validationSchema = Yup.object({
 });
 
 function InputForm(props) {
-  const initialValues = { username: "", email: "", confirmPassword: "", password: "", age: 1, genres: [], imageURL: "" };
+  const signUpValues = { username: "", email: "", confirmPassword: "", password: "", age: 1, genres: [], imageURL: "" };
+  const logInValues = { email: "", password: ""};
 
    return (
      <>
        <div className={props.container}>
          <Paper elevation={1} className={props.paper}>
            <h1>{props.simple ? "Log in details: " : "Sign up details: " }</h1>
-           <Formik 
-              render={ vProps => props.simple ? <LogInForm {...vProps} /> : <SignUpForm {...vProps} /> } 
-              initialValues={initialValues}
+           { props.simple ? 
+            <Formik 
+              render={ vProps => <LogInForm {...vProps} /> } 
+              initialValues={logInValues}
+              onSubmit={props.onSubmit}
+           /> : 
+            <Formik 
+              render={ vProps => <SignUpForm {...vProps} /> } 
+              initialValues={signUpValues}
               validationSchema={validationSchema}
               onSubmit={props.onSubmit}
-           />
+           /> }
          </Paper>
        </div>
      </>

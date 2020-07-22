@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import { Link } from 'react-router-dom';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,6 +34,10 @@ export default function ButtonAppBar() {
           <Typography variant="h6" className={classes.title}>
             Logo
           </Typography>
+          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu"
+                      component={Link} to='/my-profile'>
+            <AccountCircleIcon />
+          </IconButton>
           <Button color="inherit" component={Link} to='/log-in'>Log in</Button>
           <Button color="inherit" component={Link} to='/sign-up'>Sign up</Button>
         </Toolbar>

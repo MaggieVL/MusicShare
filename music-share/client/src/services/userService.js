@@ -6,9 +6,31 @@ class UserService {
         return response.json();
     }
 
+    async postUserCredentials(credentials) {
+        const response = await fetch(
+            `${USERS_API_BASE}/login`,
+            {
+                mode: 'cors',
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(credentials)
+            }
+        );
+            
+        const user = await response.json();
+
+        if(response.status >= 400 ){
+            console.log(`Error logging in user: ${user.username}`);
+            throw user.message;
+        }
+        console.log('User logged in successfully: ', user);
+        localStorage.setItem("current-user", user.username);
+    }
+
     async createUser(user) {
-        console.log(user);
-        console.log(JSON.stringify(user));
         const response = await fetch(
             USERS_API_BASE,
             {

@@ -6,6 +6,7 @@ const sendErrorResponse = require('../utils').sendErrorResponse;
 const replaceId = require('../utils').replaceId;
 const ObjectID = require('mongodb').ObjectID;
 const user = require('./user-middleware');
+const bcrypt = require('bcrypt');
 
 const router = express.Router();
 
@@ -24,6 +25,15 @@ router.post('/', async (req, res, next) => {
     try {
         await indicative.validator.validate(user, validationRules);
 
+        const users = await req.app.locals.db.collection('users').find().toArray();
+        const oldUser = users.find(user => user.email == req.body.email || user.username == req.body.username);
+
+        if(oldUser) {
+            sendErrorResponse(req, res, 409, 'User with this username or email already exists');
+        }
+
+        const hashedPassword = await bcrypt.hash(user.password, 10);
+        user.password = hashedPassword;
         try {
             const r = await req.app.locals.db.collection('users').insertOne(user);
             if (r.result.ok && r.insertedCount === 1) {
@@ -118,6 +128,31 @@ router.delete('/:userId', async (req, res, next) => {
     }
 });
 
-router.use('/login', user, loginRoutes);
+router.post('/login', async (req, res) => {
+    const users = await req.app.locals.db.collection('users').find().toArray();
+    console.log(users);
+    const user = users.find(user => user.email == req.body.email )
+    
+    console.log('ín post request');
+    if(user == null) {
+        return res.status(400).send('User not registered.');
+    }
+    console.log(user);
+    try {
+        console
+        if(await bcrypt.compare(req.body.password, user.password)) {
+            res.status(200).json(user);
+        } else {
+            sendErrorResponse(req, res, 401, 'Invalid username or password');
+        }
+    } catch(e) {
+        console.log(e.message);
+        sendErrorResponse(req, res, 500, 'Internal server error');
+    }
+});
+
+router.post('/logout', async (req, res) => {
+    
+})
 
 module.exports = router;

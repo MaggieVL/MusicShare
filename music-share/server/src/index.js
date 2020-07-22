@@ -16,7 +16,7 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.use(express.json({ limit: '50mb' }));
+app.use(express.json());
 
 app.use('/api', routes);
 
@@ -29,5 +29,5 @@ MongoClient.connect(process.env.DB_URL, { useUnifiedTopology: true }, function (
     if (err) throw err;
     app.locals.db = con.db(dbName);
     console.log(`Connection extablished to ${dbName}.`);
-    app.listen(port, () => console.log(`MusicShare server listening at http://localhost:${port}`))
+    app.listen(port, () => console.log(`${dbName} server listening at http://localhost:${port}`))
 });

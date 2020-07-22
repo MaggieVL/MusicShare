@@ -1,23 +1,23 @@
 {
-    "name": "recipe-blog",
-    "version": "1.0.0",
-    "private": true,
-    "main": "./src/index.js",
-    "dependencies": {
-      "cors": "^2.8.5",
-      "dotenv": "^8.2.0",
-      "express": "^4.17.1",
-      "indicative": "^7.4.4",
-      "mongodb": "^3.5.8",
-      "socket.io": "^2.3.0"
-    },
-    "scripts": {
-      "start": "nodemon -w ./ ./server.js localhost 8080",
-      "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "devDependencies": {
-      "nodemon": "^2.0.3",
-      "livereload": "^0.9.1"
-    }
+  "name": "recipe-blog",
+  "version": "1.0.0",
+  "private": true,
+  "main": "./src/index.js",
+  "dependencies": {
+    "bcrypt": "^5.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "indicative": "^7.4.4",
+    "mongodb": "^3.5.8",
+    "socket.io": "^2.3.0"
+  },
+  "scripts": {
+    "start": "nodemon -w ./ ./server.js localhost 8080",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.3",
+    "livereload": "^0.9.1"
   }
-  
+}

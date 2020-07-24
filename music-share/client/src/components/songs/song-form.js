@@ -5,6 +5,7 @@ import TextField from "@material-ui/core/TextField";
 import { MultipleSelectField } from "../input-form/multiple-select-field";
 import genreOptions from './../input-form/data/genre-options';
 import FileInput from './../input-form/file-input';
+import formStyles from '../input-form/form-styles';
 
 const SongForm = (props) => {
     const {
@@ -24,11 +25,14 @@ const SongForm = (props) => {
         setFieldTouched(name, true, false);
     };
 
+    const classes = formStyles();
+
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className={classes.form}>
             <TextField
                 id="title"
                 name="title"
+                className={classes.field}
                 helperText={touched.title ? errors.title : ""}
                 error={touched.title && Boolean(errors.title)}
                 value={title}
@@ -39,6 +43,7 @@ const SongForm = (props) => {
             <TextField
                 id="performer"
                 name="performer"
+                className={classes.field}
                 helperText={touched.performer ? errors.performer : ""}
                 error={touched.performer && Boolean(errors.performer)}
                 value={performer}
@@ -49,6 +54,7 @@ const SongForm = (props) => {
             <Field
                 id="genres"
                 name="genres"
+                className={classes.field}
                 component={MultipleSelectField}
                 options={genreOptions}
                 value={genres}
@@ -56,6 +62,7 @@ const SongForm = (props) => {
              <Field
                 id="audiofile"
                 name="audiofile"
+                className={classes.field}
                 component={FileInput}
                 title="Select an audiofile"
                 setFieldValue={setFieldValue}
@@ -65,6 +72,7 @@ const SongForm = (props) => {
             <TextField
                 id="cover"
                 name="cover"
+                className={classes.field}
                 helperText={touched.cover ? errors.cover : ""}
                 error={touched.cover && Boolean(errors.cover)}
                 value={cover}
@@ -75,7 +83,7 @@ const SongForm = (props) => {
             />
             <Button
                 type="submit"
-                variant="raised"
+                variant="contained"
                 color="primary"
                 disabled={!isValid}
             >

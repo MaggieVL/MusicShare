@@ -12,10 +12,12 @@ export const MultipleSelectField = ({
   options,
   field,
   form,
+  className,
 }) => (
   <Select
     id={field.id}
     name={field.name}
+    className={className}
     options={options}
     values={field.value}
     onChange={selectedOptions => form.setFieldValue(field.name, selectedOptions)}

@@ -8,8 +8,8 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import SongService from './../../services/songService';
 import Player from './../songs/player';
-import CustomAddButton from './../custom-add-button';
 import { useHistory } from 'react-router-dom';
+import Button from "@material-ui/core/Button";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     width: '100%',
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.background.default,
   },
 }));
 
@@ -91,8 +91,7 @@ export default function ScrollableTabs(props) {
           onChange={handleChange}
           indicatorColor="primary"
           textColor="primary"
-          variant="scrollable"
-          scrollButtons="auto"
+          variant="fullWidth"
           aria-label="scrollable auto tabs example"
         >
           <Tab label="Songs" {...a11yProps(0)}/>
@@ -101,23 +100,14 @@ export default function ScrollableTabs(props) {
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
+        <Button variant="outlined" color="primary">Add a new song</Button>
         <Player songs={allUserSongs} />
-        <CustomAddButton 
-            item="song"
-            onClick={handleSongCreateRedirect} 
-        />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <CustomAddButton 
-            item="album"
-            onClick={handleAlbumCreateRedirect} 
-        />
+        <Button variant="outlined" color="primary">Add a new album</Button>
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <CustomAddButton 
-            item="song idea"
-            onClick={handleSongIdeaCreateRedirect}  
-        />
+        <Button variant="outlined" color="primary">Add a new song idea</Button>
       </TabPanel>
     </div>
   );

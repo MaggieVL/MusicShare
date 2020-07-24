@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function FileInput(props) {
     const { id, name } = props.field;
-    const { setFieldValue } = props;
+    const { className, setFieldValue } = props;
 
     function handleFileChange(event) {
         const file = event.target.files[0];
@@ -13,6 +13,7 @@ export default function FileInput(props) {
         <input
             id={id}
             name={name}
+            className={className}
             type="file"
             onChange={handleFileChange}
         />

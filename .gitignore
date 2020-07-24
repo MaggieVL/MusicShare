@@ -1,9 +1,2 @@
-/node_modules/
 yarn.lock
-.gitignore.swp
-/music-share/node_modules/
-/music-share/debug.log
-/music-share/package.json
-/music-share/package-lock.json
-/music-share/yarn.lock
-/music-share/yarn-error.log
+package-lock.json

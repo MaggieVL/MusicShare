@@ -1,6 +1,7 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
+import formStyles from '../input-form/form-styles';
 
 const LogInForm = (props) => {
   const {
@@ -18,12 +19,15 @@ const LogInForm = (props) => {
     setFieldTouched(name, true, false);
   };
 
+  const classes = formStyles();
+
   return (
-     <form onSubmit={handleSubmit}>
+     <form onSubmit={handleSubmit} className={classes.form}>
        <TextField
          id="email"
          name="email"
          label="Email"
+         className={classes.field}
          value={email}
          onChange={change.bind(null, "email")}
          type="email"
@@ -33,6 +37,7 @@ const LogInForm = (props) => {
          id="password"
          name="password"
          label="Password"
+         className={classes.field}
          value={password}
          onChange={change.bind(null, "password")}
          type="password"
@@ -40,7 +45,7 @@ const LogInForm = (props) => {
        />
        <Button
          type="submit"
-         variant="raised"
+         variant="contained"
          color="primary"
        >
          Submit

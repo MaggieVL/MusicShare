@@ -8,26 +8,19 @@ import Typography from '@material-ui/core/Typography';
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
+    justifyContent: 'space-between',
   },
   details: {
     display: 'flex',
     flexDirection: 'column',
-  },
-  content: {
     flex: '1 0 auto',
   },
+  audio: {
+    width: `calc(100% - ${theme.spacing.unit * 2}px)`,
+    margin: `0 ${theme.spacing.unit}px ${theme.spacing.unit}px`,
+  },
   cover: {
-    width: 300,
-  },
-  controls: {
-    display: 'flex',
-    alignItems: 'center',
-    paddingLeft: theme.spacing(1),
-    paddingBottom: theme.spacing(1),
-  },
-  playIcon: {
-    height: 38,
-    width: 38,
+    width: 250,
   },
 }));
 
@@ -44,6 +37,11 @@ export default function SongCard(props) {
 
   return (
     <Card className={classes.root}>
+      <CardMedia
+        className={classes.cover}
+        image={props.cover}
+        title={props.title}
+      />
       <div className={classes.details}>
         <CardContent className={classes.content}>
           <Typography component="h5" variant="h5">
@@ -53,16 +51,11 @@ export default function SongCard(props) {
             {props.performer}
           </Typography>
         </CardContent>
-        <audio controls>
+        <audio controls className={classes.audio}>
           <source src={song} type="audio/mpeg" />
           Your browser does not support the audio tag.
         </audio>
       </div>
-      <CardMedia
-        className={classes.cover}
-        image={props.cover}
-        title={props.title}
-      />
     </Card>
   );
 }

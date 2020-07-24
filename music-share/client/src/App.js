@@ -7,7 +7,9 @@ import Home from './components/home';
 import AllUsers from './components/users/all-users'
 import './App.css';
 import UserProfile from './components/users/user-profile';
-import SongForm from './components/songs/song-create';
+import SongIdeaCreate from './components/songs/song-idea-create';
+import SongCreate from './components/songs/song-create';
+import AlbumCreate from './components/songs/album-create';
 
 export default function App() {
   return (
@@ -18,8 +20,11 @@ export default function App() {
           <Route exact path='/log-in' component={LogIn} />
           <Route exact path='/sign-up' component={SignUp} />
           <Route exact path='/users' component={AllUsers} />
-          <Route exact path='/song-create' component={SongForm} />
+          <Route exact path='/users/:userId/songs/create' component={SongCreate} />
+          <Route exact path='/users/:userId/songIdeas/create' component={SongIdeaCreate} />
+          <Route exact path='/users/:userId/albums/create' component={AlbumCreate} />
           <Route exact path='/users/:userId' component={UserProfile} />
+
         </Switch>    
   </BrowserRouter>
   );

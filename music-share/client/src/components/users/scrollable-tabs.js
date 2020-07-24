@@ -67,6 +67,20 @@ export default function ScrollableTabs(props) {
     setValue(newValue);
   };
 
+  const history = useHistory();
+
+  const handleSongIdeaCreateRedirect = (user) => {
+    history.push(`users/${user.id}/songIdeas/create/`);
+  }
+
+  const handleSongCreateRedirect = (user) => {
+    history.push(`users/${user.id}/songs/create`);
+  }
+
+  const handleAlbumCreateRedirect = (user) => {
+    history.push(`users/${user.id}/albums/create`);
+  }
+
   return (
     <div className={classes.root}>
       <AppBar position="static" color="default">
@@ -93,7 +107,8 @@ export default function ScrollableTabs(props) {
       </TabPanel>
       <TabPanel value={value} index={2}>
         <CustomAddButton 
-            item="song idea"  
+            item="song idea"
+            onClick={handleSongIdeaRedirect}  
         />
       </TabPanel>
     </div>

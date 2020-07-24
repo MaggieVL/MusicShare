@@ -1,7 +1,7 @@
 const express = require('express');
-const loginRoutes = require('./login');
+const songRoutes = require('./songs');
 const indicative = require('indicative');
-const validationRules = require('./validation-rules');
+//const validationRules = require('./validation-rules');
 const sendErrorResponse = require('../utils').sendErrorResponse;
 const replaceId = require('../utils').replaceId;
 const ObjectID = require('mongodb').ObjectID;
@@ -23,7 +23,7 @@ router.post('/', async (req, res, next) => {
     const user = req.body;
 
     try {
-        await indicative.validator.validate(user, validationRules);
+        //await indicative.validator.validate(user, validationRules);
 
         const users = await req.app.locals.db.collection('users').find().toArray();
         const oldUser = users.find(user => user.email == req.body.email || user.username == req.body.username);
@@ -139,7 +139,6 @@ router.post('/login', async (req, res) => {
     }
     console.log(user);
     try {
-        console
         if(await bcrypt.compare(req.body.password, user.password)) {
             res.status(200).json(user);
         } else {
@@ -153,6 +152,8 @@ router.post('/login', async (req, res) => {
 
 router.post('/logout', async (req, res) => {
     
-})
+});
+
+router.use('/:userId/songs', user, songRoutes);
 
 module.exports = router;

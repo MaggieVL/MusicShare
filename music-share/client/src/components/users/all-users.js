@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import CardList from './cards/card-list';
+import CardList from './card-list';
 import { useHistory } from 'react-router-dom';
 import userService from './../../services/userService';
 
@@ -21,6 +21,10 @@ export default function AllUsers() {
         setUsers(newUsers);
     }
 
+    function handleProfileVisit(user) {
+        history.push(`users/${user.id}`);
+    }
+
     function handleEdit(user) {
         history.push(`users/edit/${user.id}`);
     }
@@ -28,7 +32,8 @@ export default function AllUsers() {
     return(
         <>
             <h1>All Users</h1>
-            <CardList items={users} onDelete={handleDelete} onEdit={handleEdit}/>
+            <CardList items={users} onDelete={handleDelete} onEdit={handleEdit} 
+                    onProfileVisit={handleProfileVisit}/>
         </>
     );
 }

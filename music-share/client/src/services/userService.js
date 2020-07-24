@@ -27,7 +27,7 @@ class UserService {
             throw user.message;
         }
         console.log('User logged in successfully: ', user);
-        localStorage.setItem("current-user", user.username);
+        localStorage.setItem("current-user", JSON.stringify(user));
     }
 
     async createUser(user) {

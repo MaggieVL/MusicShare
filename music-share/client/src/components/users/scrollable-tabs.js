@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import SongService from './../../services/songService';
 import Player from './../songs/player';
+import CustomAddButton from './../custom-add-button';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -65,7 +66,7 @@ export default function ScrollableTabs(props) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  
+
   return (
     <div className={classes.root}>
       <AppBar position="static" color="default">
@@ -78,27 +79,22 @@ export default function ScrollableTabs(props) {
           scrollButtons="auto"
           aria-label="scrollable auto tabs example"
         >
-          <Tab label="All songs" {...a11yProps(0)}/>
+          <Tab label="Songs" {...a11yProps(0)}/>
           <Tab label="Albums" {...a11yProps(1)} />
-          <Tab label="Playlists" {...a11yProps(2)} />
-          <Tab label="Own songs" {...a11yProps(3)} />
-          <Tab label="Song Ideas" {...a11yProps(4)} />
+          <Tab label="Song Ideas" {...a11yProps(2)} />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
         <Player songs={allUserSongs} />
+        <CustomAddButton item="song"/>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Albums
+        <CustomAddButton item="album"/>
       </TabPanel>
       <TabPanel value={value} index={2}>
-        Playlists
-      </TabPanel>
-      <TabPanel value={value} index={3}>
-        Own songs
-      </TabPanel>
-      <TabPanel value={value} index={4}>
-        Song ideas
+        <CustomAddButton 
+            item="song idea"  
+        />
       </TabPanel>
     </div>
   );

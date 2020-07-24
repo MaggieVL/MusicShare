@@ -2,6 +2,10 @@ import React from 'react';
 import { Field } from "formik";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
+import { MultipleSelectField } from "../input-form/multiple-select-field";
+import genreOptions from './../input-form/data/genre-options';
+import FileInput from './../input-form/file-input';
+import helpOptions from './../input-form/data/help-options';
 
 const SongIdeaForm = (props) => {
     const {

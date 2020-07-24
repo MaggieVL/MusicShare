@@ -9,6 +9,7 @@ import Box from '@material-ui/core/Box';
 import SongService from './../../services/songService';
 import Player from './../songs/player';
 import CustomAddButton from './../custom-add-button';
+import { useHistory } from 'react-router-dom';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -68,17 +69,18 @@ export default function ScrollableTabs(props) {
   };
 
   const history = useHistory();
+  const currentUser = JSON.parse(localStorage.getItem('current-user'));
 
-  const handleSongIdeaCreateRedirect = (user) => {
-    history.push(`users/${user.id}/songIdeas/create/`);
+  const handleSongIdeaCreateRedirect = () => {
+    history.push(`${currentUser._id || currentUser.id}/songIdeas/create/`);
   }
 
-  const handleSongCreateRedirect = (user) => {
-    history.push(`users/${user.id}/songs/create`);
+  const handleSongCreateRedirect = () => {
+    history.push(`${currentUser._id || currentUser.id}/songs/create`);
   }
 
-  const handleAlbumCreateRedirect = (user) => {
-    history.push(`users/${user.id}/albums/create`);
+  const handleAlbumCreateRedirect = () => {
+    history.push(`${currentUser._id || currentUser.id}/albums/create`);
   }
 
   return (
@@ -100,15 +102,21 @@ export default function ScrollableTabs(props) {
       </AppBar>
       <TabPanel value={value} index={0}>
         <Player songs={allUserSongs} />
-        <CustomAddButton item="song"/>
+        <CustomAddButton 
+            item="song"
+            onClick={handleSongCreateRedirect} 
+        />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <CustomAddButton item="album"/>
+        <CustomAddButton 
+            item="album"
+            onClick={handleAlbumCreateRedirect} 
+        />
       </TabPanel>
       <TabPanel value={value} index={2}>
         <CustomAddButton 
             item="song idea"
-            onClick={handleSongIdeaRedirect}  
+            onClick={handleSongIdeaCreateRedirect}  
         />
       </TabPanel>
     </div>

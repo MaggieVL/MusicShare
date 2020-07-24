@@ -24,7 +24,6 @@ export default function App() {
           <Route exact path='/users/:userId/songIdeas/create' component={SongIdeaCreate} />
           <Route exact path='/users/:userId/albums/create' component={AlbumCreate} />
           <Route exact path='/users/:userId' component={UserProfile} />
-
         </Switch>    
   </BrowserRouter>
   );

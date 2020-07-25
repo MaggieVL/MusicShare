@@ -6,6 +6,11 @@ class SongService {
         return response.json();
     }
 
+    async getAllSongs() {
+        const response = await fetch('http://localhost:8080/api/songs');
+        return response.json();
+    }
+
     async createSong(userId, song, file) {
         const formData = new FormData();
         formData.append('audiofile', file);

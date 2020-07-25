@@ -7,8 +7,6 @@ class SongService {
     }
 
     async createSong(userId, song, file) {
-        console.log("userId, song, file");
-        console.log(userId, song, file);
         const formData = new FormData();
         formData.append('audiofile', file);
         delete song.audiofile;

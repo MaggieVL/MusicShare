@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import SignUpForm from './signup-form';
 import UserService from '../../services/userService';
 import User from './../../entities/User';
@@ -37,16 +37,22 @@ const validationSchema = Yup.object({
 
 export default function SignUp() {
   const classes = formStyles();
-  
+  const [status, setStatus] = useState("");
+
   const initialValues = { username: "", email: "", confirmPassword: "", password: "", age: 1, genres: [], imageURL: "" };
  
-  const handleSubmit = (values, actions) => {
+  const handleSubmit = async (values, actions) => {
       actions.setSubmitting(false);
       const { username, email, password, age, genres, imageURL} = values;
       let pureGenres = genres.map((genreObject) => genreObject.value);
 
       const newUser = new User(username, email, password, age, pureGenres, imageURL);
-      UserService.createUser(newUser);
+      try {
+        await UserService.createUser(newUser);
+        setStatus("Successful registration");
+      } catch (errorMessage) {
+        setStatus(errorMessage);
+      }
   }
 
   return(

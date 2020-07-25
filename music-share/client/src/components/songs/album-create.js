@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import AlbumForm from './album-form';
 import AlbumService from '../../services/albumService';
 import Album from '../../entities/Album';
@@ -17,13 +17,20 @@ const validationSchema = Yup.object({
 export default function AlbumCreate() {
     const classes = formStyles();
     const initialValues = {title: "", cover: ""};
+    const [status, setStatus] = useState("");
     
-    const handleSubmit = (values, actions) => {
+    const handleSubmit = async (values, actions) => {
         actions.setSubmitting(false);
         const { title, cover } = values;
         const newAlbum = new Album(title, cover);
         const currentUser = JSON.parse(localStorage.getItem('current-user'));
-        AlbumService.createAlbum(currentUser._id || currentUser.id, newAlbum);
+        
+        try {
+          await AlbumService.createAlbum(currentUser._id || currentUser.id, newAlbum);
+          setStatus("Successful");
+        } catch (errorMessage) {
+          setStatus(errorMessage);
+        }
     }
     
     return (

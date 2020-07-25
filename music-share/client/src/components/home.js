@@ -25,7 +25,6 @@ export default function Home() {
         fetchAllSongs();
     }, []);
 
-    console.log("allSongs " + allSongs);
     return(
         <Paper className={classes.root}>
         { genreOptions.map(({value, label}) => {

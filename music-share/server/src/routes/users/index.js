@@ -32,6 +32,7 @@ router.post('/', async (req, res, next) => {
 
         if(oldUser) {
             sendErrorResponse(req, res, 409, 'User with this username or email already exists');
+            return;
         }
 
         const hashedPassword = await bcrypt.hash(user.password, 10);

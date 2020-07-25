@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import SongService from '../../services/songService';
 import Song from '../../entities/Song';
 import { Formik } from "formik";
@@ -40,17 +40,24 @@ const validationSchema = Yup.object({
 export default function SongCreate() {
     const classes = formStyles();
     const initialValues = {title: "", performer: "", genres: [], audiofile: null, cover: ""};
-    
-    const handleSubmit = (values, actions) => {
+    const [status, setStatus] = useState("");
+
+    const handleSubmit = async (values, actions) => {
         actions.setSubmitting(false);
         const { title, performer, genres, audiofile, cover} = values;
         let pureGenres = genres.map((genreObject) => genreObject.value);
   
         const newSong = new Song(title, performer, pureGenres, audiofile, cover);
-        console.log(newSong);
         const currentUser = JSON.parse(localStorage.getItem('current-user'));
-        console.log(currentUser);
-        SongService.createSong(currentUser._id || currentUser.id, newSong, audiofile);
+
+        try {
+          await SongService.createSong(currentUser._id || currentUser.id, newSong, audiofile);
+          setStatus("Successful");
+        } catch (errorMessage) {
+          setStatus(errorMessage);
+        }
+        
+        
     }
     
     return (

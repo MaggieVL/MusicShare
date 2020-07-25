@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import SongIdeaService from '../../services/songIdeaService';
 import SongIdea from '../../entities/SongIdea';
 import { Formik } from "formik";
@@ -34,15 +34,23 @@ const validationSchema = Yup.object({
 export default function SongCreate() {
     const classes = formStyles();
     const initialValues = {title: "", help: [], genres: [], audiofile: null, cover: ""};
-    
-    const handleSubmit = (values, actions) => {
+    const [status, setStatus] = useState("");
+
+    const handleSubmit = async (values, actions) => {
         actions.setSubmitting(false);
         const { title, help, genres, audiofile, cover} = values;
         let pureGenres = genres.map((genreObject) => genreObject.value);
         let pureHelp = help.map((helpObject) => helpObject.value);
         const newSongIdea = new SongIdea(title, pureHelp, pureGenres, audiofile, cover);
         const currentUser = JSON.parse(localStorage.getItem('current-user'));
-        SongIdeaService.createSongIdea(currentUser._id || currentUser.id, newSongIdea, audiofile);
+        
+        try {
+            await SongIdeaService.createSongIdea(currentUser._id || currentUser.id, newSongIdea, audiofile);
+            setStatus("Successful");
+          } catch (errorMessage) {
+            setStatus(errorMessage);
+          }
+
     }
     
     return (
@@ -56,6 +64,7 @@ export default function SongCreate() {
               onSubmit={handleSubmit}
            /> 
          </Paper>
+         <h1>{status}</h1>
        </div>
     );
 }

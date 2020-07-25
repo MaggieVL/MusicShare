@@ -8,6 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import { Link } from 'react-router-dom';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import GroupIcon from '@material-ui/icons/Group';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,6 +41,10 @@ export default function ButtonAppBar({ currentUser, setCurrentUser }) {
                       component={Link} to={`/users/${currentUser.id || currentUser._id}`}>
             <AccountCircleIcon />
           </IconButton> : ""}
+          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu"
+                      component={Link} to={`/users`}>
+            <GroupIcon />
+          </IconButton>
           { !currentUser ? <Button color="inherit" component={Link} to='/log-in'>Log in</Button> : "" }
           { !currentUser ? <Button color="inherit" component={Link} to='/sign-up'>Sign up</Button> : "" }
           { currentUser ? <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu"

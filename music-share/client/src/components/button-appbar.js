@@ -21,18 +21,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ButtonAppBar() {
+export default function ButtonAppBar({ currentUser, setCurrentUser }) {
   const classes = useStyles();
-  const [currentUser, setCurrentUser] = useState(null);
 
   const handleLogout = () => {
     setCurrentUser(null);
     localStorage.setItem('current-user', null);
   };
-
-  useEffect(() => {
-    setCurrentUser(JSON.parse(localStorage.getItem('current-user')));
-  }, []);
 
   return (
     <div className={classes.root}>

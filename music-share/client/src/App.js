@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import ButtonAppBar from './components/button-appbar';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import LogIn from './components/users/log-in';
@@ -12,14 +12,18 @@ import SongCreate from './components/songs/song-create';
 import AlbumCreate from './components/songs/album-create';
 
 export default function App() {
-  
+  const [currentUser, setCurrentUser] = useState(null);
+
+  useEffect(() => {
+    setCurrentUser(JSON.parse(localStorage.getItem('current-user')));
+  }, []);
 
   return (
   <BrowserRouter>
-    <ButtonAppBar />
+    <ButtonAppBar currentUser={currentUser} setCurrentUser={setCurrentUser} />
         <Switch>
           <Route exact path='/' component={Home} />
-          <Route exact path='/log-in' component={LogIn} />
+          <Route exact path='/log-in' render={(props) => <LogIn {...props} setCurrentUser={setCurrentUser} />} />
           <Route exact path='/sign-up' component={SignUp} />
           <Route exact path='/users' component={AllUsers} />
           <Route exact path='/users/:userId/songs/create' component={SongCreate} />

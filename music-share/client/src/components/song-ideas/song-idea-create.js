@@ -1,6 +1,6 @@
 import React from "react";
-import SongService from '../../services/songService';
-import Song from '../../entities/Song';
+import SongIdeaService from '../../services/songIdeaService';
+import SongIdea from '../../entities/SongIdea';
 import { Formik } from "formik";
 import Paper from "@material-ui/core/Paper";
 import * as Yup from "yup";
@@ -33,24 +33,22 @@ const validationSchema = Yup.object({
 
 export default function SongCreate() {
     const classes = formStyles();
-    const initialValues = {title: "", help: [], genres: [], cover: ""};
+    const initialValues = {title: "", help: [], genres: [], audiofile: null, cover: ""};
     
     const handleSubmit = (values, actions) => {
         actions.setSubmitting(false);
-        const { title, performer, genres, audiofile, cover} = values;
+        const { title, help, genres, audiofile, cover} = values;
         let pureGenres = genres.map((genreObject) => genreObject.value);
-  
-        const newSong = new Song(title, performer, pureGenres, audiofile, cover);
-        console.log(newSong);
+        let pureHelp = help.map((helpObject) => helpObject.value);
+        const newSongIdea = new SongIdea(title, pureHelp, pureGenres, audiofile, cover);
         const currentUser = JSON.parse(localStorage.getItem('current-user'));
-        console.log(currentUser);
-        SongService.createSong(currentUser._id || currentUser.id, newSong, audiofile);
+        SongIdeaService.createSongIdea(currentUser._id || currentUser.id, newSongIdea, audiofile);
     }
     
     return (
         <div className={classes.container}>
          <Paper elevation={1} className={classes.paper}>
-           <h1>Song details:</h1>
+           <h1>Song Idea details:</h1>
             <Formik 
               render={ vProps => <SongIdeaForm {...vProps} /> } 
               initialValues={initialValues}

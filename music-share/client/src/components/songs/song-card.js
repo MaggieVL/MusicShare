@@ -28,10 +28,10 @@ export default function SongCard(props) {
   const classes = useStyles();
   const theme = useTheme();
   const [song, setSong] = useState('');
-  console.log("audioname: " + props.audiofileName);
+  const isSongIdea = props.help;
 
   useEffect(() => {
-    setSong(`http://localhost:8080/static/songs/${props.audiofileName}`);
+    setSong(`http://localhost:8080/static/${isSongIdea ? 'song-ideas' : 'songs'}/${props.audiofileName}`);
     console.log(song);
   }, []); 
 
@@ -48,7 +48,7 @@ export default function SongCard(props) {
             {props.title}
           </Typography>
           <Typography variant="subtitle1" color="textSecondary">
-            {props.performer}
+            { isSongIdea ? props.help.join(', ') : props.performer }
           </Typography>
         </CardContent>
         <audio controls className={classes.audio}>

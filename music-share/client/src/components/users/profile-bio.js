@@ -28,7 +28,7 @@ export default function ProfileBio(props) {
                     {props.username}
                 </Typography>
                 <Typography variant="body2" color="textSecondary" component="p">
-                    {props.genres}
+                    {props.genres && props.genres.join(', ')}
                 </Typography>
             </CardContent>
         </Card>

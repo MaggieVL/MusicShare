@@ -1,5 +1,7 @@
 const express = require('express');
 const songRoutes = require('./songs');
+const songIdeaRoutes = require('./song-ideas');
+const albumRoutes = require('./albums');
 const indicative = require('indicative');
 //const validationRules = require('./validation-rules');
 const sendErrorResponse = require('../utils').sendErrorResponse;
@@ -72,18 +74,23 @@ router.get('/:userId', async (req, res, next) => {
 
 router.put('/:userId', async (req, res, next) => {
     const userId = req.params.userId;
-    const old = await req.app.locals.db.collection('users').findOne({ _id: new ObjectID(userId) });
-    if (!old) {
-        sendErrorResponse(req, res, 404, `User with ID=${userId} does not exist`);
-        return;
-    }
-    const user = req.body;
-    if (old._id.toString() !== user.id) {
-        sendErrorResponse(req, res, 400, `User ID=${user.id} does not match URL ID=${userId}`);
-        return;
-    }
+
     try {
+        await indicative.validator.validate({ userId }, { userId: 'required|regex:^[0-9a-f]{24}$' });
+
+        const old = await req.app.locals.db.collection('users').findOne({ _id: new ObjectID(userId) });
+        if (!old) {
+            sendErrorResponse(req, res, 404, `User with ID=${userId} does not exist`);
+            return;
+        }
+        const user = req.body;
+        if (old._id.toString() !== user.id) {
+            sendErrorResponse(req, res, 400, `User ID=${user.id} does not match URL ID=${userId}`);
+            return;
+        }
+
         await indicative.validator.validate(user, validationRules);
+
         try {
             r = await req.app.locals.db.collection('users').updateOne({ _id: new ObjectID(userId) }, { $set: user });
             if (r.result.ok) {
@@ -155,5 +162,7 @@ router.post('/logout', async (req, res) => {
 });
 
 router.use('/:userId/songs', user, songRoutes);
+router.use('/:userId/song-ideas', user, songIdeaRoutes);
+router.use('/:userId/albums', user, albumRoutes);
 
 module.exports = router;

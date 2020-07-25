@@ -83,7 +83,7 @@ router.get('/:songId', async (req, res, next) => {
             sendErrorResponse(req, res, 404, `Song with ID=${params.songId} does not exist for user with ID=${user.id}`);
             return;
         }
-        res.json(user);
+        res.json(song);
     } catch (errors) {
         sendErrorResponse(req, res, 400, `Invalid song data: ${errors.map(e => e.message).join(', ')}`, errors);
     }
@@ -92,21 +92,26 @@ router.get('/:songId', async (req, res, next) => {
 router.put('/:songId', async (req, res, next) => {
     const user = res.locals.user;
     const songId = req.params.songId;
-    const old = await req.app.locals.db.collection('songs').findOne({
-        _id: new ObjectID(songId),
-        userId: new ObjectID(user.id)
-    });
-    if (!old) {
-        sendErrorResponse(req, res, 404, `Song with ID=${songId} does not exist for user with ID=${user.id}`);
-        return;
-    }
-    const song = req.body;
-    if (old._id.toString() !== song.id) {
-        sendErrorResponse(req, res, 400, `Song ID=${song.id} does not match URL ID=${songId}`);
-        return;
-    }
+
     try {
-        await indicative.validator.validate(song, validationRules);
+        await indicative.validator.validate({ songId }, { songId: 'required|regex:^[0-9a-f]{24}$' });
+
+        const old = await req.app.locals.db.collection('songs').findOne({
+            _id: new ObjectID(songId),
+            userId: new ObjectID(user.id)
+        });
+        if (!old) {
+            sendErrorResponse(req, res, 404, `Song with ID=${songId} does not exist for user with ID=${user.id}`);
+            return;
+        }
+        const song = req.body;
+        if (old._id.toString() !== song.id) {
+            sendErrorResponse(req, res, 400, `Song ID=${song.id} does not match URL ID=${songId}`);
+            return;
+        }
+
+        // await indicative.validator.validate(song, validationRules);
+
         try {
             r = await req.app.locals.db.collection('songs').updateOne({ _id: new ObjectID(songId) }, { $set: song });
             if (r.result.ok) {

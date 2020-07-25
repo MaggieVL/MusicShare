@@ -18,6 +18,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use('/static/songs', express.static('./static/songs')); 
+app.use('/static/song-ideas', express.static('./static/song-ideas')); 
 
 app.use('/api', routes);
 

@@ -54,7 +54,7 @@ export default function UserCard(props) {
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
         Age: {props.age}<br/>
-        Genres: {props.genres}
+        Genres: {props.genres.join(", ")}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>

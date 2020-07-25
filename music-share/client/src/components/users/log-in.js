@@ -6,7 +6,7 @@ import Paper from "@material-ui/core/Paper";
 import formStyles from './../input-form/form-styles';
 import { useHistory } from 'react-router-dom';
 
-export default function LogIn(){
+export default function LogIn({ setCurrentUser }){
     const initialValues = { email: "", password: ""};
 
     const classes = formStyles();
@@ -16,6 +16,7 @@ export default function LogIn(){
         actions.setSubmitting(false);
         console.log("handleSubmit: " + values);
         await userService.postUserCredentials(values);
+        setCurrentUser(JSON.parse(localStorage.getItem("current-user")));
         history.push(`/`);
     };
 

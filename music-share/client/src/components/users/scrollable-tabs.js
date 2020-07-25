@@ -7,7 +7,10 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import SongService from './../../services/songService';
+import SongIdeaService from './../../services/songIdeaService';
+import AlbumService from './../../services/albumService';
 import Player from './../songs/player';
+import AlbumCards from './../songs/album-cards';
 import { useHistory } from 'react-router-dom';
 import Button from "@material-ui/core/Button";
 
@@ -56,12 +59,22 @@ export default function ScrollableTabs(props) {
   const classes = useStyles();
   const [value, setValue] = useState(0);
   const [allUserSongs, setAllUserSongs] = useState([]);
+  const [allUserSongIdeas, setAllUserSongIdeas] = useState([]);
+  const [allUserAlbums, setAllUserAlbums] = useState([]);
 
   useEffect(() => {
     async function fetchAllUserSongs() {
       setAllUserSongs(await SongService.getAllUserSongs(props.userId));
     }
+    async function fetchAllUserSongIdeas() {
+      setAllUserSongIdeas(await SongIdeaService.getAllUserSongIdeas(props.userId));
+    }
+    async function fetchAllUserAlbums() {
+      setAllUserAlbums(await AlbumService.getAllUserAlbums(props.userId));
+    }
     fetchAllUserSongs();
+    fetchAllUserSongIdeas();
+    fetchAllUserAlbums();
   }, []);
 
   const handleChange = (event, newValue) => {
@@ -70,9 +83,11 @@ export default function ScrollableTabs(props) {
 
   const history = useHistory();
   const currentUser = JSON.parse(localStorage.getItem('current-user'));
+  const currentUserId = currentUser.id || currentUser._id;
+  const isCurrentUser = currentUserId === props.userId;
 
   const handleSongIdeaCreateRedirect = () => {
-    history.push(`${currentUser._id || currentUser.id}/songIdeas/create/`);
+    history.push(`${currentUser._id || currentUser.id}/songIdeas/create`);
   }
 
   const handleSongCreateRedirect = () => {
@@ -100,14 +115,19 @@ export default function ScrollableTabs(props) {
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-        <Button variant="outlined" color="primary">Add a new song</Button>
+        { isCurrentUser ? <Button variant="outlined" color="primary"
+          onClick={handleSongCreateRedirect}>Add a new song</Button> : '' }
         <Player songs={allUserSongs} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <Button variant="outlined" color="primary">Add a new album</Button>
+        { isCurrentUser ? <Button variant="outlined" color="primary"
+          onClick={handleAlbumCreateRedirect}>Add a new album</Button> : '' }
+        <AlbumCards albums={allUserAlbums} />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <Button variant="outlined" color="primary">Add a new song idea</Button>
+        { isCurrentUser ? <Button variant="outlined" color="primary"
+          onClick={handleSongIdeaCreateRedirect}>Add a new song idea</Button> : '' }
+        <Player songs={allUserSongIdeas} />
       </TabPanel>
     </div>
   );

@@ -1,7 +1,7 @@
 import React from 'react';
-import { Field } from "formik";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
+import formStyles from '../input-form/form-styles';
 
 const AlbumForm = (props) => {
     const {
@@ -10,7 +10,6 @@ const AlbumForm = (props) => {
         touched,
         handleChange,
         isValid,
-        setFieldValue,
         setFieldTouched,
         handleSubmit,
     } = props;
@@ -21,11 +20,14 @@ const AlbumForm = (props) => {
         setFieldTouched(name, true, false);
     };
 
+    const classes = formStyles();
+
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className={classes.form}>
             <TextField
                 id="title"
                 name="title"
+                className={classes.field}
                 helperText={touched.title ? errors.title : ""}
                 error={touched.title && Boolean(errors.title)}
                 value={title}
@@ -36,6 +38,7 @@ const AlbumForm = (props) => {
             <TextField
                 id="cover"
                 name="cover"
+                className={classes.field}
                 helperText={touched.cover ? errors.cover : ""}
                 error={touched.cover && Boolean(errors.cover)}
                 value={cover}
@@ -46,7 +49,7 @@ const AlbumForm = (props) => {
             />
             <Button
                 type="submit"
-                variant="raised"
+                variant="contained"
                 color="primary"
                 disabled={!isValid}
             >

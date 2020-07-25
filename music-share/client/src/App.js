@@ -7,11 +7,13 @@ import Home from './components/home';
 import AllUsers from './components/users/all-users'
 import './App.css';
 import UserProfile from './components/users/user-profile';
-import SongIdeaCreate from './components/songs/song-idea-create';
+import SongIdeaCreate from './components/song-ideas/song-idea-create';
 import SongCreate from './components/songs/song-create';
 import AlbumCreate from './components/songs/album-create';
 
 export default function App() {
+  
+
   return (
   <BrowserRouter>
     <ButtonAppBar />

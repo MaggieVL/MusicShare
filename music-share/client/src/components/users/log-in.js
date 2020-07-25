@@ -4,16 +4,19 @@ import { Formik } from "formik";
 import LogInForm from "./login-form";
 import Paper from "@material-ui/core/Paper";
 import formStyles from './../input-form/form-styles';
+import { useHistory } from 'react-router-dom';
 
 export default function LogIn(){
     const initialValues = { email: "", password: ""};
 
     const classes = formStyles();
+    const history = useHistory();
 
-    const handleSubmit = (values, actions) => {
+    const handleSubmit = async (values, actions) => {
         actions.setSubmitting(false);
         console.log("handleSubmit: " + values);
-        userService.postUserCredentials(values);
+        await userService.postUserCredentials(values);
+        history.push(`/`);
     };
 
     return (
